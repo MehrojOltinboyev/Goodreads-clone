@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %} Welcome to BookVerse {% endblock title %}
+
+{% block content %}
+<div class="container py-5">
+  <!-- Hero Section -->
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6">
+      <h1 class="fw-bold display-5 mb-4">📚 Welcome to <span class="text-primary">BookVerse</span></h1>
+      <p class="lead text-muted">
+        Discover, review, and share your favorite books with a vibrant community of readers.
+        Track your reading journey, find book recommendations, and connect with fellow book lovers.
+      </p>
+      <div class="mt-4">
+        <a href="{% url 'books:list' %}" class="btn btn-dark btn-lg rounded-pill me-3">Explore Books</a>
+        <a href="{% url 'users:register' %}" class="btn btn-outline-dark btn-lg rounded-pill">Join Now</a>
+      </div>
+    </div>
+    <div class="col-md-6 text-center">
+      <img src="https://cdn-icons-png.flaticon.com/512/3145/3145765.png"
+           alt="Books Illustration"
+           class="img-fluid"
+           style="max-height: 350px;">
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <div class="row mb-5">
+    <div class="col-lg-10 mx-auto">
+      <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h3 class="fw-semibold mb-3">📖 About Us</h3>
+        <p class="text-muted lh-lg">
+          BookVerse is inspired by platforms like Goodreads — an American social cataloging website
+          where users can explore millions of books, share reviews, and connect with friends.
+          Founded in 2006, Goodreads became a global hub for book enthusiasts.
+        </p>
+        <p class="text-muted lh-lg mb-0">
+          Today, BookVerse continues that spirit by helping you organize your reading,
+          share thoughts on books, and join a community of over <b>150 million readers worldwide</b>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="row text-center g-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm p-4 h-100 rounded-4">
+        <h4>🔍 Discover</h4>
+        <p class="text-muted">Find new books, authors, and genres tailored to your taste.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm p-4 h-100 rounded-4">
+        <h4>⭐ Review</h4>
+        <p class="text-muted">Share your opinions and rate books you’ve read.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm p-4 h-100 rounded-4">
+        <h4>🤝 Connect</h4>
+        <p class="text-muted">Join discussions, follow friends, and grow your reading circle.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

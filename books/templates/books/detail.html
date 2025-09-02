@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ book.title }} - Details{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Book Info -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <img src="{{ book.cover_picture.url }}" alt="{{ book.title }}" class="card-img-top" style="object-fit: cover; height: 450px;">
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h2 class="fw-bold mb-3">{{ book.title }}</h2>
+
+        <p class="fst-italic text-muted mb-3">
+          ✍️ Authored by
+          {% for book_author in book.bookauthor_set.all %}
+            <b>{{ book_author.author.fullname }}</b>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+
+        <p class="card-text lh-lg">
+          {{ book.description }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Form -->
+  <div class="row mb-5">
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h4 class="mb-3">💬 Add a Review</h4>
+        <form method="post" action="{% url 'books:reviews' book.id %}">
+          {% csrf_token %}
+          {{ review_form|crispy }}
+          <button class="btn btn-dark rounded-pill mt-2">Submit Review</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  {% if book.bookreview_set.exists %}
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <h4 class="mb-4">⭐ Reviews</h4>
+
+          {% for review in book.bookreview_set.all %}
+            <div class="d-flex mb-4">
+              <!-- User Profile -->
+              <img src="{{ review.user.profile_picture.url }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="Profile Pic">
+
+              <!-- Review Content -->
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <b>@{{ review.user.username }}</b>
+                    <span class="text-muted small ms-2">
+                      rated <b>{{ review.stars_given }}</b> ⭐
+                    </span>
+                  </div>
+                  <span class="fw-light text-muted small">{{ review.created_at|date:"M d, Y H:i" }}</span>
+                </div>
+
+                <p class="mt-2 mb-1">{{ review.comment }}</p>
+
+                {% if review.user == request.user %}
+                  <div>
+                    <a href="{% url 'books:edit-review' book.id review.id %}" class="text-decoration-none small me-2">✏️ Edit</a>
+                    <a href="{% url 'books:confirm-delete-review' book.id review.id %}" class="text-decoration-none text-danger small">🗑️ Delete</a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            {% if not forloop.last %}
+              <hr>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock content %}
